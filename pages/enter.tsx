@@ -1,16 +1,16 @@
 import { useState } from "react";
+import type { NextPage } from "next";
+import { className } from "../libs/utils";
+import Button from "../components/button";
+import Input from "../components/input";
 
-function className(...classNames: string[]) {
-    return classNames.join(" ");
-};
-
-export default function Enter() {
+const Enter: NextPage = () => {
     const [ method, setMethod ] = useState<"email" | "phone">("email");
     const onEmailClick = () => setMethod("email");
     const onPhoneClick = () => setMethod("phone");
     return (
-        <div className="mt-16 px-4">
-            <h3 className="text-4xl font-bold text-center">캐럿마켓 가입하기</h3>
+        <div className="py-24">
+            <h3 className="text-4xl px-4 font-bold text-center">캐럿마켓 가입하기</h3>
             <div className="mt-9">
                 <div className="flex flex-col items-center">
                     <h5 className="text-md texet-gray-500 font-medium">무엇을 사용해 가입할건가요?</h5>
@@ -19,26 +19,16 @@ export default function Enter() {
                         <button onClick={onPhoneClick} className={className("pb-4 box-border border-b-2 font-medium focus:outline-none", method === "phone" ? " border-orange-400 text-orange-500" : "border-transparent text-zinc-600")}>휴대폰 번호</button>
                     </div>
                 </div>
-                <form className="flex flex-col mt-8">
-                    <label htmlFor="input" className="text-sm font-medium text-zinc-700">
-                        {method === "email" ? "이메일 주소" : null}
-                        {method === "phone" ? "휴대폰 번호" : null}
-                    </label>
-                    <div className="mt-1">
-                        {method === "email" ? <input id="input" type="email" required className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 transition-colors focus:outline-none focus:ring-orange-500 focus:border-orange-500" /> : null}
-                        {method === "phone" ? (
-                            <div className="flex rounded-sm shadow-sm">
-                                <span className="flex items-center justify-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 select-none text-sm">+82</span>
-                                <input id="input" type="number" required className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-r-md shadow-sm placeholder-gray-400 transition-colors focus:outline-none focus:ring-orange-500 focus:border-orange-500" />
-                            </div>
-                        ) : null}
-                    </div>
-                    <button className="mt-5 bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
-                        {method === "email" ? "로그인 링크 얻기" : null}
-                        {method === "phone" ? "일회용 비밀번호 얻기" : null}
-                    </button>
+                <form className="flex flex-col mt-8 px-4">
+                    {method === "email" ? (
+                        <Input label="이메일 주소" name="email" kind="text" type="email" required />
+                    ) : null}
+                    {method === "phone" ? (
+                        <Input label="휴대폰 번호" name="phone" kind="phone" type="number" required />
+                    ) : null}
+                    <Button text={method === "email" ? "로그인 링크 얻기" : method === "phone" ? "일회용 비밀번호 얻기" : ""}  />
                 </form>
-                <div className="mt-8">
+                <div className="mt-8 px-4">
                     <div className="relative">
                         <div className="absolute w-full border-t border-gray-300" />
                         <div className="relative top-[-0.87rem] text-center">
@@ -76,3 +66,5 @@ export default function Enter() {
         </div>
     );
 };
+
+export default Enter;

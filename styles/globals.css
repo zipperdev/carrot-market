@@ -2,3 +2,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgb(209, 213, 219);
+}
+
+* {
+    scrollbar-width: 5px;
+    scrollbar-color: transparent;
+    scrollbar-base-color: rgb(209, 213, 219);
+}
