@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import FloatingButton from "../../components/floatingButton";
 import Layout from "../../components/layout";
 
@@ -6,11 +7,13 @@ const Stream: NextPage = () => {
     return (
         <Layout title="라이브" hasTabBar>
             <div className="flex flex-col relative divide-y-2 space-y-4">
-                {[1, 2, 3, 4, 5, 6].map((_, i) => (
-                    <div key={i} className="pt-4 px-4">
-                        <div className="w-full rounded-md shadow-sm bg-gray-300 aspect-video" />
-                        <h3 className="text-gray-700 text-lg mt-2">푸바표 만두 맛집 !세일중!</h3>
-                    </div>
+                {[1, 2, 3, 4, 5, 6].map((v, i) => (
+                    <Link key={i} href={`/streams/${v}`}>
+                        <a className="pt-4 px-4">
+                            <div className="w-full rounded-md shadow-sm bg-gray-300 aspect-video" />
+                            <h3 className="text-gray-700 text-lg mt-2">푸바표 만두 맛집 !세일중!</h3>
+                        </a>
+                    </Link>
                 ))}
                 <FloatingButton link="/streams/create">
                     <svg
