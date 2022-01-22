@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import Button from "../../components/button";
 import Layout from "../../components/layout";
 
@@ -48,12 +49,14 @@ const ItemDetail: NextPage = () => {
                 <div>
                     <h2 className="text-2xl font-bold text-gray-900">비슷한 물건</h2>
                     <div className="mt-6 grid grid-cols-2 gap-4">
-                    {[1, 2, 3, 4, 5, 6].map((_, i) => (
-                        <div key={i} className="cursor-pointer">
-                            <div className="h-56 w-56 mb-4 aspect-square bg-gray-300" />
-                            <h3 className="text-gray-700 -mb-1">삼성 Galaxy S60</h3>
-                            <span className="text-xs font-medium text-gray-900">&#x20a9;200</span>
-                        </div>
+                    {[1, 2, 3, 4, 5, 6].map((v, i) => (
+                        <Link key={i} href={`/items/${v}`}>
+                            <a className="cursor-pointer">
+                                <div className="h-56 w-56 mb-4 aspect-square bg-gray-300" />
+                                <h3 className="text-gray-700 -mb-1">삼성 Galaxy S60</h3>
+                                <span className="text-xs font-medium text-gray-900">&#x20a9;200</span>
+                            </a>
+                        </Link>
                     ))}
                     </div>
                 </div>
