@@ -1,13 +1,35 @@
-import { useState } from "react";
 import type { NextPage } from "next";
-import { className } from "../libs/utils";
-import Button from "../components/button";
-import Input from "../components/input";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { className } from "@libs/client/utils";
+import useMutation from "@libs/client/useMutation";
+import Button from "@components/button";
+import Input from "@components/input";
+
+interface EnterForm {
+    email?: string;
+    phone?: string;
+};
 
 const Enter: NextPage = () => {
+    const [ enter, { loading, data, error } ] = useMutation("/api/users/enter");
+    const [ submitting, setSubmitting ] = useState(false);
+    const { register, handleSubmit, reset } = useForm<EnterForm>();
     const [ method, setMethod ] = useState<"email" | "phone">("email");
-    const onEmailClick = () => setMethod("email");
-    const onPhoneClick = () => setMethod("phone");
+    const onEmailClick = () => {
+        reset();
+        setMethod("email");
+    };
+    const onPhoneClick = () => {
+        reset();
+        setMethod("phone");
+    };
+    const onValid = (formData: EnterForm) => {
+        if (!loading) {
+            enter(formData);
+        };
+    };
+    console.log(loading, data, error);
     return (
         <div className="py-24">
             <h3 className="text-4xl px-4 font-bold text-center">캐럿마켓 가입하기</h3>
@@ -19,14 +41,14 @@ const Enter: NextPage = () => {
                         <button onClick={onPhoneClick} className={className("pb-4 box-border border-b-2 font-medium focus:outline-none", method === "phone" ? " border-orange-400 text-orange-500" : "border-transparent text-zinc-600")}>휴대폰 번호</button>
                     </div>
                 </div>
-                <form className="flex flex-col mt-8 px-4">
+                <form onSubmit={handleSubmit(onValid)} className="flex flex-col mt-8 px-4">
                     {method === "email" ? (
-                        <Input label="이메일 주소" name="email" kind="text" type="email" required />
+                        <Input register={register("email")} label="이메일 주소" name="email" kind="text" type="email" required />
                     ) : null}
                     {method === "phone" ? (
-                        <Input label="휴대폰 번호" name="phone" kind="phone" type="number" required />
+                        <Input register={register("phone")} label="휴대폰 번호" name="phone" kind="phone" type="number" required />
                     ) : null}
-                    <Button text={method === "email" ? "로그인 링크 얻기" : method === "phone" ? "일회용 비밀번호 얻기" : ""}  />
+                    <Button text={!loading ? (method === "email" ? "로그인 링크 얻기" : method === "phone" ? "일회용 비밀번호 얻기" : "") : "로딩 중..."}  />
                 </form>
                 <div className="mt-8 px-4">
                     <div className="relative">
